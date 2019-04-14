@@ -1,6 +1,7 @@
 import csv
 import os
 from os import path
+from pathlib import PureWindowsPath
 
 import numpy as np
 from matplotlib import image as mpimg
@@ -43,7 +44,7 @@ class Dataset:
             if path.exists(desc):
                 with open(desc, 'r') as desc_file:
                     for row in csv.reader(desc_file):
-                        imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, path.basename(row[0]))))
+                        imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[0]).name)))
                         labels.append(float(row[3]))
         self.imgs = imgs
         self.labels = labels
