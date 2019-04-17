@@ -49,11 +49,11 @@ class Dataset:
                         imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[0]).name)))
                         labels.append(angle)
                         # Left image
-                        left_angle = angle if angle >= 0.05 else angle + 0.02
+                        left_angle = angle + 0.05
                         imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[1]).name)))
                         labels.append(left_angle)
                         # Right image
-                        right_angle = angle if angle <= -0.05 else angle - 0.02
+                        right_angle = angle - 0.05
                         imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[2]).name)))
                         labels.append(right_angle)
         self.imgs = imgs
