@@ -1,6 +1,6 @@
 import numpy as np
 from keras import Sequential
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.layers import Dense, Cropping2D, Lambda, Conv2D, Flatten
 from math import ceil
 
@@ -49,11 +49,12 @@ if __name__ == '__main__':
     # Train the model
     batch_size = 32
     checkpoint = ModelCheckpoint('model.h5', verbose=1, save_best_only=True)
+    early_stopping = EarlyStopping(min_delta=0.0001, patience=2, verbose=1)
 
     model.compile('adam', 'mse')
     model.fit_generator(dataset.train_set(batch_size),
                         steps_per_epoch=ceil(len(dataset.x_train) / batch_size),
-                        epochs=8,
-                        callbacks=[checkpoint],
+                        epochs=15,
+                        callbacks=[checkpoint, early_stopping],
                         validation_data=dataset.valid_set(batch_size),
                         validation_steps=ceil(len(dataset.x_valid) / batch_size))
