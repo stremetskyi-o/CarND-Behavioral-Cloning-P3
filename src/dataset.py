@@ -44,8 +44,18 @@ class Dataset:
             if path.exists(desc):
                 with open(desc, 'r') as desc_file:
                     for row in csv.reader(desc_file):
+                        angle = float(row[3])
+                        # Center image
                         imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[0]).name)))
-                        labels.append(float(row[3]))
+                        labels.append(angle)
+                        # Left image
+                        left_angle = angle if angle >= 0.05 else angle + 0.02
+                        imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[1]).name)))
+                        labels.append(left_angle)
+                        # Right image
+                        right_angle = angle if angle <= -0.05 else angle - 0.02
+                        imgs.append(ImageDefinition(path.join(dataset, IMG_DIR, PureWindowsPath(row[2]).name)))
+                        labels.append(right_angle)
         self.imgs = imgs
         self.labels = labels
         return imgs, labels
